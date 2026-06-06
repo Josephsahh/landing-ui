@@ -80,14 +80,26 @@ body {
   height: 100%;
   display: block;
   object-fit: contain;
-  filter: url(#chroma-purple);
   transition: opacity 0.6s ease, filter 0.6s ease, transform 0.6s ease;
 }
 
-#mascot img.is-hidden,
-#mascot video.is-hidden {
+#mascot img {
+  filter: url(#chroma-purple);
+}
+
+#mascot video {
+  filter: url(#chroma-purple-video);
+}
+
+#mascot img.is-hidden {
   opacity: 0;
   filter: url(#chroma-purple) blur(12px) brightness(1.5);
+  transform: scale(0.9);
+}
+
+#mascot video.is-hidden {
+  opacity: 0;
+  filter: url(#chroma-purple-video) blur(12px) brightness(1.5);
   transform: scale(0.9);
 }
 
