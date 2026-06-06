@@ -28,6 +28,67 @@ body {
   background:
     linear-gradient(180deg, #fff 0%, #fbf9ff 40%, #f7fbf7 100%);
   overflow-x: hidden;
+  position: relative;
+}
+
+#journey-path {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#journey-path path {
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 4px;
+  stroke-dasharray: 12 12;
+  fill: none;
+}
+
+#mascot {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  z-index: 10;
+  margin-left: -60px; /* center horizontally */
+  margin-top: -60px; /* center vertically based on path */
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+#mascot.is-visible {
+  opacity: 1;
+}
+
+#mascot-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: bottom center;
+}
+
+#mascot img,
+#mascot video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  filter: url(#chroma-purple);
+  transition: opacity 0.6s ease, filter 0.6s ease, transform 0.6s ease;
+}
+
+#mascot img.is-hidden,
+#mascot video.is-hidden {
+  opacity: 0;
+  filter: url(#chroma-purple) blur(12px) brightness(1.5);
+  transform: scale(0.9);
 }
 
 button,
@@ -319,16 +380,36 @@ section:not(.hero) {
 }
 
 .problem {
-  background: #fff;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  background: var(--ink);
+  color: #fff;
+  position: relative;
+  z-index: 5;
+}
+
+.how {
+  background: var(--ink);
+  color: #fff;
+  position: relative;
+  z-index: 6;
+  padding-top: 100px;
+}
+
+.problem .section-heading h2,
+.how .section-heading h2 {
+  color: #fff;
+}
+
+.problem .section-kicker,
+.how .section-kicker {
+  color: var(--mint);
 }
 
 .problem-grid,
 .steps,
 .trust-points {
   display: grid;
-  gap: 16px;
+  gap: 24px;
+  align-items: start;
 }
 
 .problem-grid {
@@ -336,12 +417,56 @@ section:not(.hero) {
 }
 
 .problem-grid article,
-.step,
+.step {
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 32px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #fff;
+  opacity: var(--scroll-opacity, 1);
+  filter: blur(var(--scroll-blur, 0px));
+  transform: translateY(var(--scroll-translate-y, 0px)) scale(var(--scroll-scale, 1));
+  will-change: transform, filter, opacity;
+  transition: 
+    border-color 0.3s ease, 
+    box-shadow 0.3s ease, 
+    transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), 
+    filter 0.15s ease-out, 
+    opacity 0.15s ease-out;
+  position: relative;
+  z-index: 2;
+}
+
+.problem-grid article:nth-child(even),
+.step:nth-child(even) {
+  margin-top: 60px;
+}
+
+.problem-grid article:hover,
+.step:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  transform: translateY(calc(var(--scroll-translate-y, 0px) - 8px)) scale(calc(var(--scroll-scale, 1) * 1.02));
+}
+
 .trust-points div {
   padding: 24px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--radius);
+}
+
+.problem-grid .mini-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 24px;
+  color: var(--mint);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 99px;
+  backdrop-filter: blur(10px);
 }
 
 .mini-icon {
@@ -366,8 +491,6 @@ h3 {
   line-height: 1.25;
 }
 
-.problem-grid p,
-.step p,
 .feature-item,
 .trust-copy p,
 .trust-points span,
@@ -376,8 +499,14 @@ h3 {
   line-height: 1.6;
 }
 
+.problem-grid p,
+.step p {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
 .how {
-  background: linear-gradient(180deg, #fbf9ff, #f5fbf6);
+  /* Inherits dark bg from .problem, .how */
 }
 
 .steps {
@@ -385,10 +514,18 @@ h3 {
 }
 
 .step span {
-  display: inline-block;
-  margin-bottom: 28px;
-  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 24px;
+  color: var(--mint);
   font-weight: 800;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 99px;
+  backdrop-filter: blur(10px);
 }
 
 .features {

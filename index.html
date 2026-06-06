@@ -11,6 +11,28 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <!-- SVG chroma-key filter: removes purple background from mascot assets -->
+    <svg width="0" height="0" style="position:absolute;pointer-events:none">
+      <defs>
+        <filter id="chroma-purple" color-interpolation-filters="sRGB">
+          <feFlood flood-color="rgb(112,67,154)" result="key"/>
+          <feBlend mode="difference" in="SourceGraphic" in2="key" result="diff"/>
+          <feColorMatrix type="saturate" values="0" in="diff" result="gray"/>
+          <feComponentTransfer in="gray" result="mask">
+            <feFuncR type="linear" slope="6" intercept="-0.4"/>
+            <feFuncG type="linear" slope="6" intercept="-0.4"/>
+            <feFuncB type="linear" slope="6" intercept="-0.4"/>
+          </feComponentTransfer>
+          <feColorMatrix type="matrix" in="mask" result="alpha"
+            values="0 0 0 0 0
+                    0 0 0 0 0
+                    0 0 0 0 0
+                    1 1 1 0 0"/>
+          <feComposite operator="in" in="SourceGraphic" in2="alpha"/>
+        </filter>
+      </defs>
+    </svg>
+
     <header class="site-header" data-header>
       <a class="brand" href="#top" aria-label="Demb home">
         <img src="assets/demb-logo.png" alt="Demb Logo" width="36" height="36" style="border-radius: 8px;">
@@ -33,6 +55,13 @@
     </header>
 
     <main id="top">
+      <svg id="journey-path"></svg>
+      <div id="mascot">
+        <div id="mascot-inner">
+          <img src="assets/angry.gif" alt="Mascot character angry walking" id="mascot-angry">
+          <video src="assets/happy.mp4" id="mascot-happy" class="is-hidden" autoplay loop muted playsinline></video>
+        </div>
+      </div>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">
